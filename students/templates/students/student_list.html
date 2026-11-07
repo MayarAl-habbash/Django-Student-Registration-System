@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Directory | StudentHub</title>
+
+    <link rel="stylesheet" href="{% static 'students/css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-icon">✦</span>
+                <h2>StudentHub</h2>
+            </div>
+
+            <div class="sidebar-label">WORKSPACE</div>
+
+            <nav class="navigation">
+                <a href="{% url 'register_student' %}" class="nav-link">
+                    <span>✎</span> Student Registration
+                </a>
+
+                <a href="{% url 'student_list' %}" class="nav-link active">
+                    <span>▦</span> Student Directory
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="footer-icon">✦</div>
+                <div>
+                    <strong>StudentHub</strong>
+                    <p>Academic Management</p>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">STUDENT MANAGEMENT</p>
+                    <h1>Student Directory</h1>
+                    <p class="subtitle">
+                        Explore and manage registered student records.
+                    </p>
+                </div>
+
+                <a href="{% url 'register_student' %}" class="btn btn-primary">
+                    + Add New Student
+                </a>
+            </header>
+
+            <section class="table-card">
+
+                <div class="table-header">
+                    <div>
+                        <h2>Registered Students</h2>
+                        <p>Complete overview of student records.</p>
+                    </div>
+
+                    <span class="count-badge">
+                        {{ students|length }} Students
+                    </span>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="students-table">
+
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>University ID</th>
+                                <th>National ID</th>
+                                <th>Mobile Number</th>
+                                <th>Address</th>
+                                <th>Date of Birth</th>
+                                <th>Image</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for student in students %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ student.name }}</strong>
+                                    </td>
+
+                                    <td>{{ student.university_id }}</td>
+
+                                    <td>{{ student.national_id }}</td>
+
+                                    <td>{{ student.mobile }}</td>
+
+                                    <td>{{ student.address }}</td>
+
+                                    <td>{{ student.date_of_birth|date:"d M Y" }}</td>
+
+                                    <td>
+                                        {% if student.image %}
+                                            <img
+                                                src="{{ student.image.url }}"
+                                                alt="Student image"
+                                                class="student-avatar"
+                                            >
+                                        {% else %}
+                                            <span class="no-image">No image</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+
+                            {% empty %}
+
+                                <tr>
+                                    <td colspan="7" class="empty-state">
+                                        <div class="empty-icon">✧</div>
+                                        <h3>No students registered yet</h3>
+                                        <p>Start by adding your first student.</p>
+                                        <a href="{% url 'register_student' %}" class="btn btn-primary">
+                                            + Add Student
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+            <footer class="page-footer">
+                © 2026 StudentHub · Student Registration System
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
